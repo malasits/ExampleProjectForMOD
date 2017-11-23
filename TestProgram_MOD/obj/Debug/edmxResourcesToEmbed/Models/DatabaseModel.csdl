@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DbForMODModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="People">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="BornDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="PeopleID" Relationship="Self.FK_PeopleID_PeopleID" FromRole="People" ToRole="PeopleID" />
+  </EntityType>
+  <EntityType Name="PeopleID">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PeopleID1" Type="Int32" Nullable="false" />
+    <Property Name="PeopleCode" Type="Guid" Nullable="false" />
+    <Property Name="RegDate" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <NavigationProperty Name="People" Relationship="Self.FK_PeopleID_PeopleID" FromRole="PeopleID" ToRole="People" />
+  </EntityType>
+  <EntityType Name="V_GetAllDataFromDatabase">
+    <Key>
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="LastName" />
+      <PropertyRef Name="FirstName" />
+      <PropertyRef Name="BornDate" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="BornDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="PeopleCode" Type="Guid" />
+    <Property Name="RegDate" Type="DateTimeOffset" Precision="7" />
+  </EntityType>
+  <Association Name="FK_PeopleID_PeopleID">
+    <End Role="People" Type="Self.People" Multiplicity="1" />
+    <End Role="PeopleID" Type="Self.PeopleID" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="People">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PeopleID">
+        <PropertyRef Name="PeopleID1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DbForMOD" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="People" EntityType="Self.People" />
+    <EntitySet Name="PeopleID" EntityType="Self.PeopleID" />
+    <EntitySet Name="V_GetAllDataFromDatabase" EntityType="Self.V_GetAllDataFromDatabase" />
+    <AssociationSet Name="FK_PeopleID_PeopleID" Association="Self.FK_PeopleID_PeopleID">
+      <End Role="People" EntitySet="People" />
+      <End Role="PeopleID" EntitySet="PeopleID" />
+    </AssociationSet>
+    <FunctionImport Name="P_DeleteData">
+      <Parameter Name="ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="P_InsertData">
+      <Parameter Name="FirstName" Mode="In" Type="String" />
+      <Parameter Name="LastName" Mode="In" Type="String" />
+      <Parameter Name="BornDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="P_UpdateData">
+      <Parameter Name="ID" Mode="In" Type="Int32" />
+      <Parameter Name="FirstName" Mode="In" Type="String" />
+      <Parameter Name="LastName" Mode="In" Type="String" />
+      <Parameter Name="BornDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+  </EntityContainer>
+</Schema>

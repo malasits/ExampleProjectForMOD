@@ -1,0 +1,121 @@
+﻿<div ng-controller="myCntrl">
+
+    <div id="MainContainer">
+        <header id="PageTitle">
+            MOD TESZT PROGRAM
+        </header>
+        <nav>
+            <img src="~/Picture/pic3.png" />
+            <div id="btnNewPerson" onclick="openNav(); ResetInput();" ng-click="AddPerson()"> Add new Person</div>
+        </nav>
+
+        <div id="dataContainer">
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Név</th>
+                    <th>Születési idő</th>
+                    <th>Azonosító</th>
+                    <th>Regisztráció</th>
+                    <th>Módosítás</th>
+                </tr>
+                <tr ng-repeat="p in people">
+                    <td>{{p.ID}}</td>
+                    <td>{{p.LastName}} {{p.FirstName}}</td>
+                    <td>{{p.BornDate | mydate | date: 'yyyy.MM.dd'}}</td>
+                    <td>{{p.PeopleCode}}</td>
+                    <td>{{p.RegDate | mydate | date: 'yyyy.MM.dd HH:mm:ss'}}</td>
+                    <td>
+                        <span class="btnEdit" ng-click="EditPerson(p)" onclick="openNav(); ResetInput();">
+                            <img src="~/Picture/edit.png" />
+                        </span>
+                        <span class="btnEdit" ng-click="DeletePerson(p)">
+                            <img src="~/Picture/delete.png" />
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="myNav" class="overlay">
+                <div id="inputContainer">
+                    <form>
+                        <label id="ActionLabel">{{Action}} Employee</label>
+                        <table>
+                            <tr>
+                                <td>ID:</td>
+                                <td><input type="text" disabled="disabled" ng-model="personId" /></td>
+                            </tr>
+                            <tr>
+                                <td>Vezetéknév</td>
+                                <td><input type="text" id="txtPersonLastName" ng-model="personLastName" onkeydown="ColorBack('txtPersonLastName')"/></td>
+                            </tr>
+                            <tr>
+                                <td>Keresztnév</td>
+                                <td><input id="txtPersonFirstName" type="text" ng-model="personFirstName" onkeydown="ColorBack('txtPersonFirstName')"/></td>
+                            </tr>
+                            <tr>
+                                <td>Születési idő</td>
+                                <td><input id="txtPersonBornDate" type="text" ng-model="personBornDate" onkeydown="ColorBack('txtPersonBornDate')"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div id="btnContainer">
+                                        <div id="btnSave" class="btnEditPerson" onclick="InputChecker()" >Save</div>
+                                        <div class="btnEditPerson" onclick="closeNav()">Close</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <script>
+                            function InputChecker() {
+                                var txtLastName = document.getElementById("txtPersonLastName").value;
+                                var txtFirstName = document.getElementById("txtPersonFirstName").value;
+                                var txtBornDate = document.getElementById("txtPersonBornDate").value;
+
+                                if (!(txtLastName === "" || txtFirstName === "" || txtBornDate === "")) {
+                                    
+                                    angular.element(document.getElementById('btnSave')).scope().AddUpdateEmployee();
+                                }
+                                else {
+                                    if (txtLastName === "") {
+                                        document.getElementById("txtPersonLastName").style.backgroundColor = "red";
+                                    }
+                                    if (txtFirstName === "") {
+                                        document.getElementById("txtPersonFirstName").style.backgroundColor = "red";
+                                    }
+                                    if (txtBornDate === "") {
+                                        document.getElementById("txtPersonBornDate").style.backgroundColor = "red";
+                                    }
+                                }
+                            }
+
+                            function ColorBack(elementID) {
+                                document.getElementById(elementID).style.backgroundColor = "white";
+                            }
+
+                            function ResetInput() {
+                                document.getElementById("txtPersonLastName").style.backgroundColor = "white";
+                                document.getElementById("txtPersonFirstName").style.backgroundColor = "white";
+                                document.getElementById("txtPersonBornDate").style.backgroundColor = "white";
+                            }
+                        </script>
+                        
+                        
+                    </form>
+                </div>
+
+        </div>
+
+        <script>
+            app.filter("mydate", function () {
+                var re = /\/Date\(([0-9]*)\)\//;
+                return function (x) {
+                    var m = x.match(re);
+                    if (m) return new Date(parseInt(m[1]));
+                    else return null;
+                };
+            });
+        </script>
+    </div>
+</div>

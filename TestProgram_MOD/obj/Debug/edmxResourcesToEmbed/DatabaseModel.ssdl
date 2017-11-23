@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DbForMODModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="People">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="BornDate" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PeopleID">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PeopleID" Type="int" Nullable="false" />
+    <Property Name="PeopleCode" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RegDate" Type="datetimeoffset" Precision="7" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'DbForMOD.dbo.V_GetAllDataFromDatabase' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="V_GetAllDataFromDatabase">
+    <Key>
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="LastName" />
+      <PropertyRef Name="FirstName" />
+      <PropertyRef Name="BornDate" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="BornDate" Type="date" Nullable="false" />
+    <Property Name="PeopleCode" Type="uniqueidentifier" />
+    <Property Name="RegDate" Type="datetimeoffset" Precision="7" />
+  </EntityType>
+  <Association Name="FK_PeopleID_PeopleID">
+    <End Role="People" Type="Self.People" Multiplicity="1" />
+    <End Role="PeopleID" Type="Self.PeopleID" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="People">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PeopleID">
+        <PropertyRef Name="PeopleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="P_DeleteData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="P_InsertData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
+    <Parameter Name="LastName" Type="nvarchar" Mode="In" />
+    <Parameter Name="BornDate" Type="date" Mode="In" />
+  </Function>
+  <Function Name="P_UpdateData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ID" Type="int" Mode="In" />
+    <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
+    <Parameter Name="LastName" Type="nvarchar" Mode="In" />
+    <Parameter Name="BornDate" Type="date" Mode="In" />
+  </Function>
+  <EntityContainer Name="DbForMODModelStoreContainer">
+    <EntitySet Name="People" EntityType="Self.People" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PeopleID" EntityType="Self.PeopleID" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="V_GetAllDataFromDatabase" EntityType="Self.V_GetAllDataFromDatabase" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_GetAllDataFromDatabase].[ID] AS [ID], 
+    [V_GetAllDataFromDatabase].[LastName] AS [LastName], 
+    [V_GetAllDataFromDatabase].[FirstName] AS [FirstName], 
+    [V_GetAllDataFromDatabase].[BornDate] AS [BornDate], 
+    [V_GetAllDataFromDatabase].[PeopleCode] AS [PeopleCode], 
+    [V_GetAllDataFromDatabase].[RegDate] AS [RegDate]
+    FROM [dbo].[V_GetAllDataFromDatabase] AS [V_GetAllDataFromDatabase]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_PeopleID_PeopleID" Association="Self.FK_PeopleID_PeopleID">
+      <End Role="People" EntitySet="People" />
+      <End Role="PeopleID" EntitySet="PeopleID" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

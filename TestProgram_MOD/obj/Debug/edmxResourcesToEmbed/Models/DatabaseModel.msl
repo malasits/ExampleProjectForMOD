@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DbForMODModelStoreContainer" CdmEntityContainer="DbForMOD">
+    <EntitySetMapping Name="People">
+      <EntityTypeMapping TypeName="DbForMODModel.People">
+        <MappingFragment StoreEntitySet="People">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="BornDate" ColumnName="BornDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PeopleID">
+      <EntityTypeMapping TypeName="DbForMODModel.PeopleID">
+        <MappingFragment StoreEntitySet="PeopleID">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PeopleID1" ColumnName="PeopleID" />
+          <ScalarProperty Name="PeopleCode" ColumnName="PeopleCode" />
+          <ScalarProperty Name="RegDate" ColumnName="RegDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="V_GetAllDataFromDatabase">
+      <EntityTypeMapping TypeName="DbForMODModel.V_GetAllDataFromDatabase">
+        <MappingFragment StoreEntitySet="V_GetAllDataFromDatabase">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="BornDate" ColumnName="BornDate" />
+          <ScalarProperty Name="PeopleCode" ColumnName="PeopleCode" />
+          <ScalarProperty Name="RegDate" ColumnName="RegDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="P_DeleteData" FunctionName="DbForMODModel.Store.P_DeleteData" />
+    <FunctionImportMapping FunctionImportName="P_InsertData" FunctionName="DbForMODModel.Store.P_InsertData" />
+    <FunctionImportMapping FunctionImportName="P_UpdateData" FunctionName="DbForMODModel.Store.P_UpdateData" />
+  </EntityContainerMapping>
+</Mapping>
